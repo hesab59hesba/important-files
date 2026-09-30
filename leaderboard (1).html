@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Leaderboard - World Class Satisfying VFX</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #05070a;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+            overflow-x: hidden;
+        }
+
+        .leaderboard-container {
+            width: 100%;
+            max-width: 520px;
+            background: rgba(14, 20, 30, 0.75);
+            backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 35px 24px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 100px rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            position: relative;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 28px;
+            font-size: 26px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            background: linear-gradient(180deg, #ffffff 0%, #7d8ea6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+        }
+
+        .leaderboard-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* ==========================================================================
+           WORLD-CLASS CARD CONTAINERS (FULL GLASSMORPHISM INTERACTIVE SHADERS)
+           ========================================================================== */
+        .rank-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            border-radius: 18px;
+            position: relative;
+            overflow: hidden;
+            background: rgba(22, 30, 46, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            cursor: pointer;
+        }
+
+        /* Card Content Layering over shaders */
+        .player-info, .score-zone {
+            position: relative;
+            z-index: 3; 
+        }
+
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .rank-badge {
+            font-size: 22px;
+            font-weight: 900;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-shadow: 0 0 15px currentColor;
+        }
+
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: inset 0 0 12px rgba(255,255,255,0.05);
+        }
+
+        .username {
+            font-size: 17px;
+            font-weight: 600;
+            color: #f0f6fc;
+            letter-spacing: 0.5px;
+        }
+
+        .score {
+            font-size: 19px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        /* The Ultimate Full-Card Ambient Shader Canvas */
+        .bg-shader-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .bg-shader-canvas svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Dynamic Border Overlay Layer */
+        .border-glow-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 18px;
+            pointer-events: none;
+            z-index: 2;
+            border: 1px solid transparent;
+            transition: all 0.4s ease;
+        }
+
+        /* ==========================================================================
+           GLOBAL REUSABLE MOTION ENGINES (GPU ACCELERATED SHADERS)
+           ========================================================================== */
+        @keyframes full-shimmer {
+            0% { transform: translateX(-150%) skewX(-25deg); }
+            100% { transform: translateX(150%) skewX(-25deg); }
+        }
+        @keyframes floating-particles {
+            0% { transform: translateY(50px) scale(0.3); opacity: 0; }
+            50% { opacity: 0.8; }
+            100% { transform: translateY(-50px) scale(1.2); opacity: 0; }
+        }
+        @keyframes liquid-drift {
+            0% { transform: translateX(0) scaleY(1); }
+            50% { transform: translateX(-25%) scaleY(1.15); }
+            100% { transform: translateX(-50%) scaleY(1); }
+        }
+        @keyframes pulse-bloom {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.05); }
+        }
+
+        /* ==========================================================================
+           WORLD-CLASS THEMED PRESETS FOR EACH SLOT
+           ========================================================================== */
+
+        /* 🥇 RANK 1: THE DIVINE GOLDEN EMPYREAN (Liquid Aura + Volumetric Embers + Active Sheen) */
+        .rank-1 {
+            background: linear-gradient(135deg, rgba(44, 34, 2, 0.8) 0%, rgba(20, 15, 2, 0.9) 100%);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.15), inset 0 0 20px rgba(255, 215, 0, 0.1);
+        }
+        .rank-1 .border-glow-layer { border-color: rgba(255, 215, 0, 0.4); box-shadow: 0 0 15px rgba(255, 215, 0, 0.2); }
+        .rank-1 .score { color: #ffd700; text-shadow: 0 0 15px rgba(255, 215, 0, 0.6); }
+        .rank-1 .avatar { border-color: #ffd700; box-shadow: 0 0 15px rgba(255, 215, 0, 0.3); }
+        .rank-1:hover { transform: scale(1.03) translateY(-2px); box-shadow: 0 15px 40px rgba(255, 215, 0, 0.3); }
+        /* 1st Place SVG Shader Styles */
+        .r1-liquid { animation: liquid-drift 8s cubic-bezier(0.445, 0.05, 0.55, 0.95) infinite; }
+        .r1-ember { animation: floating-particles 3.5s infinite linear; }
+        .rank-1::after {
+            content: ''; position: absolute; top:0; left:0; width:60%; height:100%;
+            background: linear-gradient(to right, rgba(255,255,255,0), rgba(255,215,0,0.15), rgba(255,255,255,0));
+            transform: skewX(-25deg); animation: full-shimmer 4s infinite ease-in-out; z-index: 2; pointer-events: none;
+        }
+
+        /* 🥈 RANK 2: THE COSMIC PLATINUM PULSE (Nebula Wave Overlay) */
+        .rank-2 {
+            background: linear-gradient(135deg, rgba(26, 35, 49, 0.8) 0%, rgba(12, 17, 26, 0.9) 100%);
+        }
+        .rank-2 .border-glow-layer { border-color: rgba(168, 178, 193, 0.3); }
+        .rank-2 .score { color: #a8b2c1; text-shadow: 0 0 12px rgba(168, 178, 193, 0.4); }
+        .rank-2 .avatar { border-color: #a8b2c1; }
+        .rank-2:hover { transform: scale(1.02) translateY(-1px); }
+        .r2-wave { animation: liquid-drift 6s ease-in-out infinite alternate; }
+
+        /* 🥉 RANK 3: THE VOLCANIC MAGMA SPIKE (Fractal Plasma Array) */
+        .rank-3 {
+            background: linear-gradient(135deg, rgba(34, 21, 16, 0.8) 0%, rgba(18, 11, 8, 0.9) 100%);
+        }
+        .rank-3 .border-glow-layer { border-color: rgba(205, 127, 50, 0.25); }
+        .rank-3 .score { color: #cd7f32; }
+        .rank-3 .avatar { border-color: #cd7f32; }
+        .rank-3:hover { transform: scale(1.015); }
+        @keyframes magma-pulse { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.4; } }
+        .r3-plasma { animation: magma-pulse 2s ease-in-out infinite alternate; }
+
+        /* 🔮 RANK 4: THE VOID QUANTUM FIELD (Dark Cosmic Inversion) */
+        .rank-4 { background: #0c0813; }
+        .rank-4 .border-glow-layer { border-color: rgba(163, 112, 247, 0.2); }
+        @keyframes void-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .r4-vortex { animation: void-spin 12s linear infinite; transform-origin: center; opacity: 0.3; }
+
+        /* 🟢 RANK 5: THE MATRIX INTERFERENCE GRID (Cyber Digital Matrix) */
+        .rank-5 { background: #09140e; }
+        .rank-5 .border-glow-layer { border-color: rgba(0, 255, 102, 0.15); }
+        @keyframes matrix-scroll { 0% { stroke-dashoffset: 50; } 100% { stroke-dashoffset: 0; } }
+        .r5-grid { stroke-dasharray: 6 3; animation: matrix-scroll 3s linear infinite; }
+
+        /* ⚡ RANK 6: THE ARCANE LIGHTNING OVERDRIVE (Fluctuating Voltage Rays) */
+        .rank-6 { background: #0a131c; }
+        .rank-6 .border-glow-layer { border-color: rgba(0, 240, 255, 0.15); }
+        @keyframes lightning-flash { 0%, 100% { opacity: 0.05; } 8%, 12%, 90% { opacity: 0.3; } 10% { opacity: 0.6; } }
+        .r6-ray { animation: lightning-flash 4s ease-in-out infinite; }
+
+        /* 🔴 RANK 7: THE CRIMSON BLOODMOON TIDE (Sinister Fluid Overlays) */
+        .rank-7 { background: #1c0b0f; }
+        .rank-7 .border-glow-layer { border-color: rgba(255, 0, 85, 0.15); }
+        .r7-tide { animation: liquid-drift 10s linear infinite reverse; opacity: 0.25; }
+
+        /* 🔮 RANK 8: THE HOLOGRAPHIC SYNTHWAVE (Multicolor Prism Shaders) */
+        .rank-8 { background: #170d1a; }
+        .rank-8 .border-glow-layer { border-color: rgba(255, 0, 255, 0.15); }
+        @keyframes holo-shift { 0%, 100% { filter: hue-rotate(0deg); } 50% { filter: hue-rotate(180deg); } }
+        .r8-gradient { animation: holo-shift 6s linear infinite; }
+
+        /* 🟢 RANK 9: THE TOXIC PLASMA SLUDGE (Asynchronous Fluid Bubble Shaders) */
+        .rank-9 { background: #13170d; }
+        .rank-9 .border-glow-layer { border-color: rgba(154, 255, 0, 0.15); }
+        .r9-sludge { animation: pulse-bloom 4s ease-in-out infinite; }
+
+        /* 🪐 RANK 10: THE INFINITE DEEP NEBULA (Ethereal Cosmic Fog Clamping) */
+        .rank-10 { background: #0b0f19; }
+        .rank-10 .border-glow-layer { border-color: rgba(255, 255, 255, 0.05); }
+        .r10-nebula { animation: pulse-bloom 7s ease-in-out infinite alternate; }
+
+    </style>
+</head>
+<body>
+
+    <div class="leaderboard-container">
+        <h2>Global Legends</h2>
+        
+        <div class="leaderboard-list">
+            
+            <!-- 🥇 RANK 1: GOLDEN EMPYREAN -->
+            <div class="rank-item rank-1">
+                <div class="border-glow-layer"></div>
+                <div class="player-info">
+                    <span class="rank-badge">🥇</span>
+                    <div class="avatar">GP</div>
+                    <span class="username">GamerPro_99</span>
+                </div>
+                <div class="score-zone"><div class="score">99,450</div></div>
+                <div class="bg-shader-canvas">
+                    <svg viewBox="0 0 500 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="goldFluid" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ffd700" stop-opacity="0.3"/>
+                                <stop offset="50%" stop-color="#ff6a00" stop-opacity="0.1"/>
+                                <stop offset="100%" stop-color="#2c2202" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Dynamic fluid background vector acting across full container height -->
+                        <path d="M-50 20 Q 100 5, 250 40 T 550 10 L 550 90 L -50 90 Z" fill="url(#goldFluid)" class="r1-liquid"/>
+                        <circle cx="80" cy="60" r="3" fill="#ffd700" class="r1-ember"/>
+                        <circle cx="280" cy="50" r="4" fill="#ffffff" class="r1-ember" style="animation-delay: 1.2s;"/>
+                        <circle cx="420" cy="30" r="2" fill="#ffaa00" class="r1-ember" style="animation-delay: 0.6s;"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 🥈 RANK 2: PLATINUM PULSE -->
+            <div class="rank-item rank-2">
+                <div class="border-glow-layer"></div>
+                <div class="player-info">
+                    <span class="rank-badge">🥈</span>
+                    <div class="avatar">VN</div>
+                    <span class="username">Vortex_Ninja</span>
+                </div>
+                <div class="score-zone"><div class="score">88,120</div></div>
+                <div class="bg-shader-canvas">
+                    <svg viewBox="0 0 500 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="platWave" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="#a8b2c1" stop-opacity="0.2"/>
+                                <stop offset="50%" stop-color="#00d2ff" stop-opacity="0.08"/>
+                                <stop offset="100%" stop-color="#a8b2c1" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        <path d="M-50 40 Q 120 10, 280 50 T 600 30 L 600 90 L -50 90 Z" fill="url(#platWave)" class="r2-wave"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 🥉 RANK 3: VOLCANIC MAGMA -->
+            <div class="rank-item rank-3">
+                <div class="border-glow-layer"></div>
+                <div class="player-info">
+                    <span class="rank-badge">🥉</span>
+                    <div class="avatar">XP</div>
+                    <span class="username">Xenon_Pulse</span>
+                </div>
+                <div class="score-zone"><div class="score">76,890</div></div>
+                <div class="bg-shader-canvas">
+                    <svg viewBox="0 0 500 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <radialGradient id="magmaGlow" cx="80%" cy="50%" r="70%">
+                                <stop offset="0%" stop-color="#ff3300" stop-opacity="0.3"/>
+                                <stop offset="60%" stop-color="#cd7f32" stop-opacity="0.05"/>
+                                <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+                            </radialGradient>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#magmaGlow)" class="r3-plasma"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 🔮 RANK 4: VOID QUANTUM FIELD -->
+            <div class="rank-item rank-4">
+                <div class="border-glow-layer"></div>
+                <div class="player-info">
+                    <span class="rank-badge" style="color:#a370f7;">4</span>
+                    <div class="avatar">CD</div>
+                    <span class="username">Cyber_Dusk</span>
+                </div>
+                <div class="score-zone"><div class="score">65,400</div></div>
+                <div class="bg-shader-canvas">
+                    <svg viewBox="0 0 500 80" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="400" cy="40" r="70" fill="none" stroke="#7928ca" stroke-width="1" class="r4-vortex" stroke-dasharray="10 20"/>
+                        <circle cx="400" cy="40" r="40" fill="none" stroke="#a370f7" stroke-width="1.5" class="r4-vortex" style="animation-duration:6s; animation-direction:reverse; stroke-dasharray:5 10;"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 🟢 RANK 5: MATRIX GRID -->
+            <div class="rank-item rank-5">
+                <div class="border-glow-layer"></div>
+                <div class="player-info">
+                    <span class="rank-badge" style="color:#00ff66;">5</span>
+                    <div class="avatar">NK</div>
+                    <span class="username">Neo_Knight</span>
+                </div>
+                <div class="score-zone"><div class="score">59,200</div></div>
+                <div class="bg-shader-canvas">
+                    <svg viewBox="0 0 500 80" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                        <line x1="0" y1="20" x2="500" y2="20" stroke="#00ff66" stroke-width="1" opacity="0.15" class="r5-grid"/>
+                        <line x1="0" y1="40" x2="500" y2="40" stroke="#00ff66" stroke-width="1" opacity="0.15" class="r5-grid" style="animation-delay: 1.5s;"/>
+                        <line x1="0" y1="60" x2="500" y2="60" stroke="#00ff66" stroke-width="1" opacity="0.15" class="r5-grid"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- ⚡ RANK 6: ARCANE LIGHTNING -->
+            <div class="rank-item rank-6">
+                <div class="border-glow-layer"></div>
+                <div class="player-info">
+                    <span class="rank-badge" style="color:#00f0ff;">6</span>
+                    <div class="avatar">AZ</div>
+                    <span class="username">Apex_Zero</span>
+                </div>
+                <div class="score-zone"><div class="score">54,800</div></div>
+                <div class="bg-shader-canvas">
+                    <svg viewBox="0 0 500 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="bolt" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="30%" stop-color="#00f0ff" stop-opacity="0"/>
+                                <stop offset="50%" stop-color="#ffffff" stop-opacity="0.4"/>
+                                <stop offset="70%" stop-color="#00f0ff" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#bolt)" class="r6-ray"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 🔴 RANK 7: CRIMSON BLOODMOON TIDE -->
+            <div class="rank-item rank-7">
+                <div class="border-glow-layer"></div>
+                <div class="player-info">
+                    <span class="rank-badge" style="color:#ff0055;">7</span>
+                    <div class="avatar">RT</div>
+                    <span class="username">Rogue_Tether</span>
+                </div>
+                <div class="score-zone"><div class="score">49,310</div></div>
+                <div class="bg-shader-canvas">
+                    <svg viewBox="0 0 500 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M-50 30 Q 150 60, 300 20 T 600 40 L 600 90 L -50 90 Z" fill="#ff0055" class="r7-tide"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 🔮 RANK 8: HOLOGRAPHIC SYNTHWAVE -->
+            <div class="rank-item rank-8">
+                <div class="border-glow-layer"></div>
+                <div class="player-info">
+                    <span class="rank-badge" style="color:#ff00ff;">8</span>
+                    <div class="avatar">PH</div>
+                    <span class="username">Pixel_Heart</span>
+                </div>
+                <div class="score-zone"><div class="score">44,150</div></div>
+                <div class="bg-shader-canvas">
+                    <svg viewBox="0 0 500 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="holoG" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#ff00ff" stop-opacity="0.15"/>
+                                <stop offset="50%" stop-color="#00ffff" stop-opacity="0.15"/>
+                                <stop offset="100%" stop-color="#ff00ff" stop-opacity="0"/>
+                            </linearGradient>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#holoG)" class="r8-gradient"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 🟢 RANK 9: TOXIC PLASMA -->
+            <div class="rank-item rank-9">
+                <div class="border-glow-layer"></div>
+                <div class="player-info">
+                    <span class="rank-badge" style="color:#9aff00;">9</span>
+                    <div class="avatar">SW</div>
+                    <span class="username">SonicWave</span>
+                </div>
+                <div class="score-zone"><div class="score">39,800</div></div>
+                <div class="bg-shader-canvas">
+                    <svg viewBox="0 0 500 80" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="40" r="30" fill="#9aff00" opacity="0.1" class="r9-sludge"/>
+                        <circle cx="450" cy="40" r="20" fill="#9aff00" opacity="0.08" class="r9-sludge" style="animation-delay:1.5s;"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- 🪐 RANK 10: DEEP NEBULA -->
+            <div class="rank-item rank-10">
+                <div class="border-glow-layer"></div>
+                <div class="player-info">
+                    <span class="rank-badge" style="color:#7d8ea6;">10</span>
+                    <div class="avatar">ND</div>
+                    <span class="username">Nebula_Drift</span>
+                </div>
+                <div class="score-zone"><div class="score">35,400</div></div>
+                <div class="bg-shader-canvas">
+                    <svg viewBox="0 0 500 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <radialGradient id="nebulaFog" cx="50%" cy="50%" r="60%">
+                                <stop offset="0%" stop-color="#3b4a6b" stop-opacity="0.25"/>
+                                <stop offset="100%" stop-color="#0b0f19" stop-opacity="0"/>
+                            </radialGradient>
+                        </defs>
+                        <rect width="100%" height="100%" fill="url(#nebulaFog)" class="r10-nebula"/>
+                    </svg>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
