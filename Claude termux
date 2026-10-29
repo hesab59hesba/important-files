@@ -1,7 +1,10 @@
 ## version compatiple to run on termux
-
+## the last working pure JS version
 npm install -g @anthropic-ai/claude-code@2.1.112
-  
+
+## Lock down the directory permissions so the auto-updater fails to overwrite it
+chmod -R a-w $(npm config get prefix)/lib/node_modules/@anthropic-ai/claude-code
+
 in bashrc
 ## Base URL for OpenRouter API Endpoint
 export ANTHROPIC_BASE_URL="https://openrouter.ai/api"
