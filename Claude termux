@@ -11,6 +11,11 @@ npm install -g @anthropic-ai/claude-code@2.1.112
 ## Lock down the global directory permissions so the auto-updater fails to overwrite it
 chmod -R a-w $(npm config get prefix)/lib/node_modules/@anthropic-ai/claude-code
 
+## hide auto update errors and enable auto approve
+echo "alias claude='claude --no-update-check --auto-approve'" >> ~/.bashrc
+source ~/.bashrc
+
+
 
 in bashrc
 ## Base URL for OpenRouter API Endpoint
